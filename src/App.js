@@ -12,13 +12,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://minesweeper-api.herokuapp.com/games', {
+    const info = {
+      number: 0
+    }
+
+    const requestPost = {
       method: 'POST',
-      body: JSON.stringify({ difficulty: 0 }),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(info)
+    }
+
+    fetch('https://minesweeper-api.herokuapp.com/games', requestPost)
       .then(resp => resp.json())
       .then(newGame => {
         console.log(newGame)
@@ -28,29 +34,52 @@ class App extends Component {
       })
   }
 
+  cellClick = (row, column) => {
+    console.log('clicked', row, column)
+    fetch(
+      `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/check`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ row: row, column: column }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then(resp => resp.json())
+      .then(newState => {
+        console.log(newState)
+        this.setState({
+          game: newState
+        })
+      })
+  }
+
   render() {
     return (
       <>
         <Header />
-        <div>
-          <table>
-            <tbody>
-              {this.state.game.board.map((row, i) => {
-                return (
-                  <tr key={i}>
-                    {row.map((col, j) => {
-                      return (
-                        <td key={j} className="cell">
-                          {this.state.game.board[i][j]}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+        <table className="main-board">
+          <tbody>
+            {this.state.game.board.map((row, i) => {
+              return (
+                <tr key={i}>
+                  {row.map((col, j) => {
+                    return (
+                      <td
+                        key={j}
+                        className="cell"
+                        onClick={() => this.cellClick(i, j)}
+                      >
+                        {this.state.game.board[i][j]}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </>
     )
   }
