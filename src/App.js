@@ -2,29 +2,20 @@ import React, { Component } from 'react'
 import Header from './components/Header'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      game: {
-        board: []
-      }
+  state = {
+    game: {
+      board: []
     }
   }
 
   componentDidMount() {
-    const info = {
-      number: 0
-    }
-
-    const requestPost = {
+    fetch('https://minesweeper-api.herokuapp.com/games', {
       method: 'POST',
+      body: JSON.stringify({ difficulty: 0 }),
       headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(info)
-    }
-
-    fetch('https://minesweeper-api.herokuapp.com/games', requestPost)
+        'Content-Type': 'application/json'
+      }
+    })
       .then(resp => resp.json())
       .then(newGame => {
         console.log(newGame)
@@ -40,7 +31,35 @@ class App extends Component {
       `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/check`,
       {
         method: 'POST',
-        body: JSON.stringify({ row: row, column: column }),
+        body: JSON.stringify({
+          row: row,
+          column: column
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then(resp => resp.json())
+      .then(newState => {
+        console.log(newState)
+        this.setState({
+          game: newState
+        })
+      })
+  }
+
+  flagClick = (event, row, column) => {
+    event.preventDefault()
+    console.log('flag', row, column)
+    fetch(
+      `https://minesweeper-api.herokuapp.com/games/${this.state.game.id}/flag`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          row: row,
+          col: column
+        }),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -64,12 +83,13 @@ class App extends Component {
             {this.state.game.board.map((row, i) => {
               return (
                 <tr key={i}>
-                  {row.map((col, j) => {
+                  {row.map((column, j) => {
                     return (
                       <td
                         key={j}
                         className="cell"
                         onClick={() => this.cellClick(i, j)}
+                        onContextMenu={event => this.flagClick(event, i, j)}
                       >
                         {this.state.game.board[i][j]}
                       </td>
