@@ -74,31 +74,31 @@ class App extends Component {
       })
   }
 
-  resetGame = () => {
-    fetch('https://minesweeper-api.herokuapp.com/games', {
-      method: 'POST',
-      body: JSON.stringify({ difficulty: 0 }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(resp => resp.json())
-      .then(newGame => {
-        console.log(newGame)
-        this.setState({
-          game: newGame
-        })
-      })
-  }
+  // resetGame = () => {
+  //   fetch('https://minesweeper-api.herokuapp.com/games', {
+  //     method: 'POST',
+  //     body: JSON.stringify({ difficulty: 0 }),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //     .then(resp => resp.json())
+  //     .then(newGame => {
+  //       console.log(newGame)
+  //       this.setState({
+  //         game: newGame
+  //       })
+  //     })
+  // }
 
   render() {
     return (
       <>
         <Header />
         <table className="main-board">
-          <button className="reset-button" onClick={() => this.resetGame()}>
+          {/* <button className="reset-button" onClick={() => this.resetGame()}>
             Let's play again!
-          </button>
+          </button> */}
           <tbody>
             {this.state.game.board.map((row, i) => {
               return (
