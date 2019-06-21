@@ -16,4 +16,4 @@ add difficulty menu dropdown
 
 (https://minesweeper-olivia-cunningham.netlify.com)
 
-<img src="/images/1.JPG" alt="minesweeper"/>
+<img src=".src/images/1.JPG" alt="minesweeper"/>
