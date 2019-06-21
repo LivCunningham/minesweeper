@@ -14,6 +14,4 @@ rewrite reset button
 add win or lost message
 add difficulty menu dropdown
 
-(https://minesweeper-olivia-cunningham.netlify.com)
-
 <img src=".src/images/1.JPG" alt="minesweeper"/>
