@@ -14,4 +14,4 @@ rewrite reset button
 add win or lost message
 add difficulty menu dropdown
 
-<img src=".src/images/1.JPG" alt="minesweeper"/>
+<a href="https://ibb.co/bJN161z"><img src="https://i.ibb.co/NSWxFxZ/1.jpg" alt="1"></a>
